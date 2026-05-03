@@ -18,6 +18,8 @@ namespace Warlogic.Tweenkit
 
         protected float _duration;
         protected float _delay;
+        protected int _currentLoop;
+        protected bool _isReversed;
 
         public virtual float Duration
         {
@@ -60,6 +62,22 @@ namespace Warlogic.Tweenkit
         {
             get { return _isPaused; }
         }
+
+        public virtual int LoopCount
+        {
+            get { return _loopCount; }
+            protected set { _loopCount = value; }
+        }
+
+        private int _loopCount = 1;
+
+        public virtual LoopType LoopType
+        {
+            get { return _loopType; }
+            protected set { _loopType = value; }
+        }
+
+        private LoopType _loopType = LoopType.Restart;
 
         public event Action OnComplete;
         public event Action OnUpdate;
@@ -155,6 +173,14 @@ namespace Warlogic.Tweenkit
             return this;
         }
 
+        public virtual IPlayable SetLoops(int count, LoopType loopType)
+        {
+            ThrowIfSequenced();
+            LoopCount = count;
+            LoopType = loopType;
+            return this;
+        }
+
         public virtual void Play()
         {
             if (_isKilled || _isComplete)
@@ -185,8 +211,6 @@ namespace Warlogic.Tweenkit
             _isPaused = true;
         }
 
-
-
         public virtual void Kill()
         {
             if (_isKilled)
@@ -212,7 +236,7 @@ namespace Warlogic.Tweenkit
             _isKilled = true;
             _isPlaying = false;
             _isPaused = false;
-            ApplyValue(1f);
+            ApplyValue(ComputeFinalT());
             OnUpdate?.Invoke();
             OnComplete?.Invoke();
         }
@@ -247,7 +271,7 @@ namespace Warlogic.Tweenkit
             if (Duration <= 0f)
             {
                 _elapsed = 0f;
-                ApplyValue(1f);
+                ApplyValue(ComputeFinalT());
                 OnUpdate?.Invoke();
                 _isComplete = true;
                 _isPlaying = false;
@@ -255,15 +279,35 @@ namespace Warlogic.Tweenkit
                 return;
             }
 
-            float t = Mathf.Clamp01(_elapsed / Duration);
-            ApplyValue(_ease(t));
+            float rawT = Mathf.Clamp01(_elapsed / Duration);
+            float easedT = _ease(rawT);
+            if (_isReversed)
+            {
+                easedT = 1f - easedT;
+            }
+
+            ApplyValue(easedT);
             OnUpdate?.Invoke();
 
             if (_elapsed >= Duration)
             {
-                _isComplete = true;
-                _isPlaying = false;
-                OnComplete?.Invoke();
+                _currentLoop++;
+                int totalLoops = LoopCount < 0 ? int.MaxValue : LoopCount;
+                if (_currentLoop >= totalLoops)
+                {
+                    _isComplete = true;
+                    _isPlaying = false;
+                    OnComplete?.Invoke();
+                    return;
+                }
+
+                _elapsed = 0f;
+                _delayElapsed = Delay;
+
+                if (LoopType == LoopType.Yoyo)
+                {
+                    _isReversed = !_isReversed;
+                }
             }
         }
 
@@ -275,10 +319,27 @@ namespace Warlogic.Tweenkit
             _isKilled = false;
             _isPlaying = false;
             _isPaused = false;
+            _currentLoop = 0;
+            _isReversed = false;
         }
 
         protected virtual void ApplyValue(float t)
         {
+        }
+
+        private float ComputeFinalT()
+        {
+            if (LoopType == LoopType.Restart || LoopCount < 0)
+            {
+                return 1f;
+            }
+
+            // Yoyo with finite loops.
+            // After LoopCount-1 completions, _isReversed is toggled that many times.
+            // Final iteration direction: reversed if (LoopCount - 1) is odd, i.e. LoopCount is even.
+            bool finalReversed = (LoopCount - 1) % 2 == 1;
+            float easedT = _ease(1f);
+            return finalReversed ? 1f - easedT : easedT;
         }
 
         private void ThrowIfSequenced()
@@ -288,6 +349,5 @@ namespace Warlogic.Tweenkit
                 throw new InvalidOperationException("Cannot modify a tween that is part of a sequence.");
             }
         }
-
     }
 }

@@ -16,6 +16,7 @@ namespace Warlogic.Tweenkit
         private bool _isPlaying;
         private bool _isPaused;
         private bool _isKilled;
+        private int _currentLoop;
 
         public float Duration
         {
@@ -42,12 +43,18 @@ namespace Warlogic.Tweenkit
             get { return _isPaused; }
         }
 
+        public int LoopCount { get; private set; } = 1;
+
+        public LoopType LoopType { get; private set; } = LoopType.Restart;
+
         public event Action OnComplete;
         public event Action OnUpdate;
         public event Action OnKill;
 
         public Sequence Append(IPlayable playable)
         {
+            ThrowIfInvalidPlayable(playable);
+
             if (playable is ITween tween && tween.IsSequenced)
             {
                 throw new InvalidOperationException("Tween is already part of a sequence.");
@@ -83,6 +90,8 @@ namespace Warlogic.Tweenkit
 
         public Sequence Join(IPlayable playable)
         {
+            ThrowIfInvalidPlayable(playable);
+
             if (playable is ITween tween && tween.IsSequenced)
             {
                 throw new InvalidOperationException("Tween is already part of a sequence.");
@@ -101,6 +110,8 @@ namespace Warlogic.Tweenkit
 
         public Sequence Insert(float atTime, IPlayable playable)
         {
+            ThrowIfInvalidPlayable(playable);
+
             if (playable is ITween tween && tween.IsSequenced)
             {
                 throw new InvalidOperationException("Tween is already part of a sequence.");
@@ -115,6 +126,13 @@ namespace Warlogic.Tweenkit
             _items.Add(item);
             _lastStartTime = item.StartTime;
             _duration = Mathf.Max(_duration, atTime + playable.Duration);
+            return this;
+        }
+
+        public IPlayable SetLoops(int count, LoopType loopType)
+        {
+            LoopCount = count;
+            LoopType = loopType;
             return this;
         }
 
@@ -261,9 +279,23 @@ namespace Warlogic.Tweenkit
 
             if (_elapsed >= _duration)
             {
-                _isComplete = true;
-                _isPlaying = false;
-                OnComplete?.Invoke();
+                _currentLoop++;
+                int totalLoops = LoopCount < 0 ? int.MaxValue : LoopCount;
+                if (_currentLoop >= totalLoops)
+                {
+                    _isComplete = true;
+                    _isPlaying = false;
+                    OnComplete?.Invoke();
+                    return;
+                }
+
+                _elapsed = 0f;
+                Reset();
+                _isPlaying = true;
+
+                // Note: Full backward playback for Sequence Yoyo would require
+                // all child playables to support reverse ticking, which they do not.
+                // For now, Yoyo on a Sequence behaves the same as Restart.
             }
         }
 
@@ -274,11 +306,20 @@ namespace Warlogic.Tweenkit
             _isPlaying = false;
             _isPaused = false;
             _isKilled = false;
+            _currentLoop = 0;
 
             foreach (SequenceItem item in _items)
             {
                 item.Started = false;
                 item.Playable?.Reset();
+            }
+        }
+
+        private void ThrowIfInvalidPlayable(IPlayable playable)
+        {
+            if (playable.LoopCount != 1)
+            {
+                throw new InvalidOperationException("Cannot add a looping playable to a sequence.");
             }
         }
     }

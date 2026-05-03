@@ -9,6 +9,8 @@ namespace Warlogic.Tweenkit
         bool IsKilled { get; }
         bool IsPlaying { get; }
         bool IsPaused { get; }
+        int LoopCount { get; }
+        LoopType LoopType { get; }
 
         event Action OnComplete;
         event Action OnUpdate;
@@ -20,5 +22,6 @@ namespace Warlogic.Tweenkit
         void Kill();
         void Complete();
         void Reset();
+        IPlayable SetLoops(int count, LoopType loopType);
     }
 }
