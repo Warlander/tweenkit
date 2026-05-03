@@ -1,0 +1,10 @@
+{
+  "name": "Warlogic.Tweenkit.Editor",
+  "references": [
+    "Warlogic.Tweenkit"
+  ],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "autoReferenced": true,
+  "optionalUnityReferences": []
+}
