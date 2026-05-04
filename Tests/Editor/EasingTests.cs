@@ -331,5 +331,113 @@ namespace Warlogic.Tweenkit.Tests
             // Assert
             Assert.AreEqual(0.875f, appliedValue, 0.001f);
         }
+
+        [Test]
+        public void InBack_ReturnsExpectedValues()
+        {
+            // Arrange
+            Func<float, float> ease = EasingFunctions.GetFunction(Ease.InBack);
+
+            // Act & Assert
+            Assert.AreEqual(0f, ease(0f), 0.0001f);
+            Assert.AreEqual(-0.0876975f, ease(0.5f), 0.0001f);
+            Assert.AreEqual(1f, ease(1f), 0.0001f);
+        }
+
+        [Test]
+        public void OutBack_ReturnsExpectedValues()
+        {
+            // Arrange
+            Func<float, float> ease = EasingFunctions.GetFunction(Ease.OutBack);
+
+            // Act & Assert
+            Assert.AreEqual(0f, ease(0f), 0.0001f);
+            Assert.AreEqual(1.0876975f, ease(0.5f), 0.0001f);
+            Assert.AreEqual(1f, ease(1f), 0.0001f);
+        }
+
+        [Test]
+        public void InOutBack_ReturnsExpectedValues()
+        {
+            // Arrange
+            Func<float, float> ease = EasingFunctions.GetFunction(Ease.InOutBack);
+
+            // Act & Assert
+            Assert.AreEqual(0f, ease(0f), 0.0001f);
+            Assert.AreEqual(0.5f, ease(0.5f), 0.0001f);
+            Assert.AreEqual(1f, ease(1f), 0.0001f);
+        }
+
+        [Test]
+        public void InElastic_ReturnsExpectedValues()
+        {
+            // Arrange
+            Func<float, float> ease = EasingFunctions.GetFunction(Ease.InElastic);
+
+            // Act & Assert
+            Assert.AreEqual(0f, ease(0f), 0.0001f);
+            Assert.AreEqual(-0.015625f, ease(0.5f), 0.0001f);
+            Assert.AreEqual(1f, ease(1f), 0.0001f);
+        }
+
+        [Test]
+        public void OutElastic_ReturnsExpectedValues()
+        {
+            // Arrange
+            Func<float, float> ease = EasingFunctions.GetFunction(Ease.OutElastic);
+
+            // Act & Assert
+            Assert.AreEqual(0f, ease(0f), 0.0001f);
+            Assert.AreEqual(1.015625f, ease(0.5f), 0.0001f);
+            Assert.AreEqual(1f, ease(1f), 0.0001f);
+        }
+
+        [Test]
+        public void InOutElastic_ReturnsExpectedValues()
+        {
+            // Arrange
+            Func<float, float> ease = EasingFunctions.GetFunction(Ease.InOutElastic);
+
+            // Act & Assert
+            Assert.AreEqual(0f, ease(0f), 0.0001f);
+            Assert.AreEqual(0.5f, ease(0.5f), 0.0001f);
+            Assert.AreEqual(1f, ease(1f), 0.0001f);
+        }
+
+        [Test]
+        public void InBounce_ReturnsExpectedValues()
+        {
+            // Arrange
+            Func<float, float> ease = EasingFunctions.GetFunction(Ease.InBounce);
+
+            // Act & Assert
+            Assert.AreEqual(0f, ease(0f), 0.0001f);
+            Assert.AreEqual(0.234375f, ease(0.5f), 0.0001f);
+            Assert.AreEqual(1f, ease(1f), 0.0001f);
+        }
+
+        [Test]
+        public void OutBounce_ReturnsExpectedValues()
+        {
+            // Arrange
+            Func<float, float> ease = EasingFunctions.GetFunction(Ease.OutBounce);
+
+            // Act & Assert
+            Assert.AreEqual(0f, ease(0f), 0.0001f);
+            Assert.AreEqual(0.765625f, ease(0.5f), 0.0001f);
+            Assert.AreEqual(1f, ease(1f), 0.0001f);
+        }
+
+        [Test]
+        public void InOutBounce_ReturnsExpectedValues()
+        {
+            // Arrange
+            Func<float, float> ease = EasingFunctions.GetFunction(Ease.InOutBounce);
+
+            // Act & Assert
+            Assert.AreEqual(0f, ease(0f), 0.0001f);
+            Assert.AreEqual(0.5f, ease(0.5f), 0.0001f);
+            Assert.AreEqual(1f, ease(1f), 0.0001f);
+        }
     }
 }

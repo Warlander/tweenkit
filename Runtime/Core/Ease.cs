@@ -23,6 +23,15 @@ namespace Warlogic.Tweenkit
         InOutExpo,
         InCirc,
         OutCirc,
-        InOutCirc
+        InOutCirc,
+        InBack,
+        OutBack,
+        InOutBack,
+        InElastic,
+        OutElastic,
+        InOutElastic,
+        InBounce,
+        OutBounce,
+        InOutBounce
     }
 }

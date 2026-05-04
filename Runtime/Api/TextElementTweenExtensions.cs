@@ -11,7 +11,7 @@ namespace Warlogic.Tweenkit
             Tweener<Color> tween = new Tweener<Color>
             {
                 To = to,
-                Lerp = Color.Lerp,
+                Lerp = Color.LerpUnclamped,
                 Apply = value => target.style.color = value
             };
 
@@ -32,7 +32,7 @@ namespace Warlogic.Tweenkit
         {
             Tweener<Color> tween = new Tweener<Color>
             {
-                Lerp = Color.Lerp,
+                Lerp = Color.LerpUnclamped,
                 Apply = value => target.style.color = value,
                 GetFrom = () => GetCurrentTextColor(target),
                 GetTo = from => from + add

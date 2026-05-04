@@ -474,5 +474,75 @@ namespace Warlogic.Tweenkit.Tests
             Assert.AreEqual(100f, element.style.height.value.value, 0.001f);
             engine.Dispose();
         }
+
+        [Test]
+        public void ToBackgroundColor_AppliesCorrectStyleValue()
+        {
+            // Arrange
+            VisualElement element = new VisualElement();
+            Tweener<Color> tween = element.ToBackgroundColor(Color.red, Color.blue);
+            tween.SetDuration(1f);
+
+            // Act
+            tween.Play();
+            tween.Tick(1f);
+
+            // Assert
+            Assert.AreEqual(Color.red, element.style.backgroundColor.value);
+        }
+
+        [Test]
+        public void ByBackgroundColor_AppliesCorrectRelativeStyleValue()
+        {
+            // Arrange
+            VisualElement element = new VisualElement();
+            element.style.backgroundColor = new Color(0.2f, 0.3f, 0.4f);
+            Tweener<Color> tween = element.ByBackgroundColor(new Color(0.1f, 0.1f, 0.1f, 0f));
+            tween.SetDuration(1f);
+
+            // Act
+            tween.Play();
+            tween.Tick(1f);
+
+            // Assert
+            Assert.AreEqual(new Color(0.3f, 0.4f, 0.5f, 1f), element.style.backgroundColor.value);
+        }
+
+        [Test]
+        public void ToBackgroundColor_ExplicitEngine_RegistersWithProvidedEngine()
+        {
+            // Arrange
+            VisualElement element = new VisualElement();
+            ManualTweenTicker ticker = new ManualTweenTicker();
+            TweenEngine engine = new TweenEngine(ticker);
+
+            // Act
+            Tweener<Color> tween = element.ToBackgroundColor(Color.red, Color.blue, engine);
+            tween.SetDuration(1f);
+            ticker.TickManual(1f);
+
+            // Assert
+            Assert.AreEqual(Color.red, element.style.backgroundColor.value);
+            engine.Dispose();
+        }
+
+        [Test]
+        public void ByBackgroundColor_ExplicitEngine_RegistersWithProvidedEngine()
+        {
+            // Arrange
+            VisualElement element = new VisualElement();
+            element.style.backgroundColor = new Color(0.2f, 0.3f, 0.4f);
+            ManualTweenTicker ticker = new ManualTweenTicker();
+            TweenEngine engine = new TweenEngine(ticker);
+
+            // Act
+            Tweener<Color> tween = element.ByBackgroundColor(new Color(0.1f, 0.1f, 0.1f, 0f), engine);
+            tween.SetDuration(1f);
+            ticker.TickManual(1f);
+
+            // Assert
+            Assert.AreEqual(new Color(0.3f, 0.4f, 0.5f, 1f), element.style.backgroundColor.value);
+            engine.Dispose();
+        }
     }
 }
