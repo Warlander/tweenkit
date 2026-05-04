@@ -8,5 +8,6 @@ namespace Warlogic.Tweenkit
         void Unregister(IPlayable playable);
         void KillAll();
         int ActiveTweenCount { get; }
+        bool IsDisposed { get; }
     }
 }

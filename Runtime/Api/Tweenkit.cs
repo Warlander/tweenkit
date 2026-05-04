@@ -19,7 +19,7 @@ namespace Warlogic.Tweenkit
 
         public static void Initialize(ITweenEngine engine = null)
         {
-            if (Engine != null)
+            if (Engine != null && !Engine.IsDisposed)
             {
                 return;
             }

@@ -10,6 +10,11 @@ namespace Warlogic.Tweenkit
         private readonly ITweenTicker _ticker;
         private bool _disposed;
 
+        public bool IsDisposed
+        {
+            get { return _disposed; }
+        }
+
         public int ActiveTweenCount
         {
             get

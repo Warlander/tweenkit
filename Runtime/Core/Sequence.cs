@@ -255,6 +255,7 @@ namespace Warlogic.Tweenkit
                     item.Started = true;
                     if (item.Playable != null)
                     {
+                        item.Playable.Reset();
                         item.Playable.Play();
                     }
                     else if (item.Callback != null)
@@ -263,7 +264,7 @@ namespace Warlogic.Tweenkit
                     }
                 }
 
-                if (item.Playable != null && item.Playable.IsPlaying)
+                if (item.Playable != null && item.Started && item.Playable.IsPlaying)
                 {
                     float effectiveDelta = deltaTime;
                     if (previousElapsed < item.StartTime)
