@@ -2,5 +2,5 @@
   "name": "com.warlogic.tweenkit",
   "displayName": "Tweenkit",
   "version": "1.0.0",
-  "description": ""
+  "description": "Lightweight tweening library for Unity UI Toolkit with fluent API, sequences, and built-in easing."
 }
