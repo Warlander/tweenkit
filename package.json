@@ -2,5 +2,18 @@
   "name": "com.warlogic.tweenkit",
   "displayName": "Tweenkit",
   "version": "1.0.0",
-  "description": "Lightweight tweening library for Unity UI Toolkit with fluent API, sequences, and built-in easing."
+  "unity": "6000.0",
+  "description": "Lightweight tweening library for Unity UI Toolkit with fluent API, sequences, and built-in easing.",
+  "author": {
+    "name": "Maciej Cyranowicz",
+    "url": "https://github.com/Warlander"
+  },
+  "license": "MIT",
+  "documentationUrl": "https://github.com/Warlander/tweenkit/blob/master/README.md",
+  "changelogUrl": "https://github.com/Warlander/tweenkit/blob/master/CHANGELOG.md",
+  "licensesUrl": "https://github.com/Warlander/tweenkit/blob/master/LICENSE",
+  "repository": {
+    "url": "https://github.com/Warlander/tweenkit.git",
+    "type": "git"
+  }
 }
