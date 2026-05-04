@@ -3,15 +3,15 @@ using System;
 namespace Warlogic.Tweenkit
 {
     /// <summary>
-    /// Global entry point for the Tweenkit fluent API.
+    /// Global entry point for the Tweenkit fluent API (static accessor: <see cref="TK"/>).
     /// </summary>
     /// <remarks>
     /// The static mutable engine field is intentional API design, not a bug or temporary workaround.
-    /// Tweenkit is designed as a zero-configuration, globally accessible tweening library
+    /// TK is designed as a zero-configuration, globally accessible tweening library
     /// (similar to DOTween). A single shared engine keeps call sites lightweight and avoids
     /// passing engine references through every UI screen and presenter.
     /// </remarks>
-    public static class Tweenkit
+    public static class TK
     {
         // This is for internal use by the fluent API only.
         // Never use it directly outside of the Tweenkit package.

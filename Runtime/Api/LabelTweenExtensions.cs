@@ -19,7 +19,7 @@ namespace Warlogic.Tweenkit
                         return to;
                     }
 
-                    int count = Mathf.FloorToInt(t * to.Length);
+                    int count = Mathf.FloorToInt(Mathf.Clamp01(t) * to.Length);
                     if (count >= to.Length)
                     {
                         return to;
@@ -41,7 +41,7 @@ namespace Warlogic.Tweenkit
                 tween.SetAliveCondition(() => target.panel != null);
             }
 
-            ITweenEngine targetEngine = engine ?? Tweenkit.Engine;
+            ITweenEngine targetEngine = engine ?? TK.Engine;
             if (targetEngine == null)
             {
                 throw new InvalidOperationException("Tweenkit not initialized.");

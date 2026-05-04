@@ -2,12 +2,12 @@ using NUnit.Framework;
 
 namespace Warlogic.Tweenkit.Tests
 {
-    public class TweenkitStaticTests
+    public class TKStaticTests
     {
         [TearDown]
         public void TearDown()
         {
-            Tweenkit.Shutdown();
+            TK.Shutdown();
         }
 
         [Test]
@@ -18,10 +18,10 @@ namespace Warlogic.Tweenkit.Tests
             TweenEngine engine = new TweenEngine(ticker);
 
             // Act
-            Tweenkit.Initialize(engine);
+            TK.Initialize(engine);
 
             // Assert
-            Assert.AreEqual(engine, Tweenkit.Engine);
+            Assert.AreEqual(engine, TK.Engine);
             engine.Dispose();
         }
 
@@ -29,13 +29,13 @@ namespace Warlogic.Tweenkit.Tests
         public void Initialize_WithNullEngine_CreatesDefaultEngine()
         {
             // Arrange
-            Assert.IsNull(Tweenkit.Engine);
+            Assert.IsNull(TK.Engine);
 
             // Act
-            Tweenkit.Initialize();
+            TK.Initialize();
 
             // Assert
-            Assert.IsNotNull(Tweenkit.Engine);
+            Assert.IsNotNull(TK.Engine);
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace Warlogic.Tweenkit.Tests
             TweenEngine engine = new TweenEngine(ticker);
 
             // Act
-            Sequence sequence = Tweenkit.Sequence(engine);
+            Sequence sequence = TK.Sequence(engine);
             sequence.AppendCallback(() => { });
             sequence.Play();
             ticker.TickManual(1f);
@@ -61,8 +61,8 @@ namespace Warlogic.Tweenkit.Tests
         public void Sequence_WithNoEngineAndInitialized_RegistersWithDefaultEngine()
         {
             // Arrange
-            Tweenkit.Initialize();
-            Sequence sequence = Tweenkit.Sequence();
+            TK.Initialize();
+            Sequence sequence = TK.Sequence();
             sequence.AppendCallback(() => { });
 
             // Act

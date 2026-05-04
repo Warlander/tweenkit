@@ -56,7 +56,7 @@ namespace Warlogic.Tweenkit
                 tween.SetAliveCondition(() => target.panel != null);
             }
 
-            ITweenEngine targetEngine = engine ?? Tweenkit.Engine;
+            ITweenEngine targetEngine = engine ?? TK.Engine;
             if (targetEngine == null)
             {
                 throw new InvalidOperationException("Tweenkit not initialized.");

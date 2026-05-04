@@ -8,13 +8,13 @@ namespace Warlogic.Tweenkit.Tests
         [SetUp]
         public void SetUp()
         {
-            Tweenkit.Initialize();
+            TK.Initialize();
         }
 
         [TearDown]
         public void TearDown()
         {
-            Tweenkit.Shutdown();
+            TK.Shutdown();
         }
 
         [Test]
@@ -95,6 +95,40 @@ namespace Warlogic.Tweenkit.Tests
 
             // Assert - 0.5 * 5 = 2.5, floor = 2, "He"
             Assert.AreEqual("He", label.text);
+        }
+
+        [Test]
+        public void ToTypewriter_WithBackEase_DoesNotCrash()
+        {
+            // Arrange
+            Label label = new Label();
+            Tweener<string> tween = label.ToTypewriter("Hello");
+            tween.SetDuration(1f);
+            tween.SetEase(Ease.InBack);
+
+            // Act
+            tween.Play();
+            tween.Tick(0.1f);
+
+            // Assert - clamped to empty, not crashed
+            Assert.AreEqual("", label.text);
+        }
+
+        [Test]
+        public void ToTypewriter_WithBounceEase_DoesNotOvershoot()
+        {
+            // Arrange
+            Label label = new Label();
+            Tweener<string> tween = label.ToTypewriter("Hello");
+            tween.SetDuration(1f);
+            tween.SetEase(Ease.OutBounce);
+
+            // Act
+            tween.Play();
+            tween.Tick(1f);
+
+            // Assert - clamped to full text, not overshot
+            Assert.AreEqual("Hello", label.text);
         }
     }
 }

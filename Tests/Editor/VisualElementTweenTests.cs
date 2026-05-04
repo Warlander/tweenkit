@@ -9,13 +9,13 @@ namespace Warlogic.Tweenkit.Tests
         [SetUp]
         public void SetUp()
         {
-            Tweenkit.Initialize();
+            TK.Initialize();
         }
 
         [TearDown]
         public void TearDown()
         {
-            Tweenkit.Shutdown();
+            TK.Shutdown();
         }
 
         [Test]

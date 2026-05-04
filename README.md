@@ -52,19 +52,19 @@ Then open **Window > Package Manager** and look for `com.warlogic.tweenkit`.
 
 # Setup
 
-Call `Tweenkit.Initialize()` once at startup. This creates a hidden `GameObject` with a ticker that drives the tween engine on `Update`.
+Call `TK.Initialize()` once at startup. This creates a hidden `GameObject` with a ticker that drives the tween engine on `Update`.
 
 ```csharp
-Tweenkit.Initialize();
+TK.Initialize();
 ```
 
-Call `Tweenkit.Shutdown()` when cleaning up to dispose the engine and destroy the ticker. This is only necessary if you no longer wish to use Tweenkit within the same game session and/or plan to restart it later.
+Call `TK.Shutdown()` when cleaning up to dispose the engine and destroy the ticker. This is only necessary if you no longer wish to use Tweenkit within the same game session and/or plan to restart it later.
 
 ```csharp
-Tweenkit.Shutdown();
+TK.Shutdown();
 ```
 
-You can also provide your own `ITweenEngine` implementation or use default `TweenEngine` outside of `Tweenkit` utility and fluent API if you prefer custom tick control.
+You can also provide your own `ITweenEngine` implementation or use default `TweenEngine` outside of `TK` utility and fluent API if you prefer custom tick control.
 
 # Usage
 
@@ -164,7 +164,7 @@ tween.OnUpdate += () => Debug.Log("Tween updated");
 Chain tweens and callbacks in time with `Sequence`:
 
 ```csharp
-Sequence seq = Tweenkit.Sequence();
+Sequence seq = TK.Sequence();
 seq.Append(element.ToOpacity(0f).SetDuration(0.5f))
    .AppendInterval(0.2f)
    .Append(element.ToOpacity(1f).SetDuration(0.5f))
@@ -188,7 +188,7 @@ tween.Complete(); // jumps to end, fires OnComplete and kills the tween
 Kill all active tweens:
 
 ```csharp
-Tweenkit.KillAll();
+TK.KillAll();
 ```
 
 ## Manual Tick
@@ -198,7 +198,7 @@ For unit tests or custom update loops, use `ManualTweenTicker`:
 ```csharp
 ManualTweenTicker ticker = new ManualTweenTicker();
 TweenEngine engine = new TweenEngine(ticker);
-Tweenkit.Initialize(engine); // Optional - only if you plan to use fluent API
+TK.Initialize(engine); // Optional - only if you plan to use fluent API
 
 ticker.TickManual(0.5f); // advance time by 0.5 seconds
 ```
