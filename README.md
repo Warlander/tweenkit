@@ -15,7 +15,7 @@ https://github.com/Warlander/tweenkit.git
 
 To install a specific release, append the tag:
 ```
-https://github.com/Warlander/tweenkit.git#1.0.0
+https://github.com/Warlander/tweenkit.git#1.0.1
 ```
 
 ## Via Registry Browser
@@ -43,7 +43,7 @@ Add the Warlogic registry to your `Packages/manifest.json`:
     }
   ],
   "dependencies": {
-    "com.warlogic.tweenkit": "1.0.0"
+    "com.warlogic.tweenkit": "1.0.1"
   }
 }
 ```
